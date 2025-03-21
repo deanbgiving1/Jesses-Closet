@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Saved Items - PINKMAN Clothing{% endblock %}
+
+{% block content %}
+<main style="padding: 30px; text-align: center;">
+    <h2 style="font-size: 2em; margin-bottom: 20px;">Your Saved Items</h2>
+    {% if saved_items %}
+        <table style="width: 80%; margin: 0 auto; border-collapse: collapse; background-color: #333; color: white;">
+            <tbody>
+                {% for item in saved_items %}
+                    <tr style="background-color: rgba(30, 30, 30, 0.85);">
+                        <td style="padding: 10px; border: 1px solid white; text-align: center;">
+                            <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}" style="max-width: 80px; border-radius: 8px;">
+                        </td>
+                        <td style="padding: 10px; border: 1px solid white; text-align: center;">
+                            {{ item.name }}
+                        </td>
+                        <td style="padding: 10px; border: 1px solid white; text-align: center;">
+                            <a href="{{ item.purchase_link }}" target="_blank" style="color: #FFD700; text-decoration: none; font-weight: bold;">${{item.price}}. Buy on {{item.source}}</a>
+                        </td>
+                        <td style="padding: 10px; border: 1px solid white; text-align: center;">
+                            <form action="{{ url_for('remove_saved_item') }}" method="post" style="display: inline;">
+                                <input type="hidden" name="product_name" value="{{ item.name }}">
+                                <button type="submit" 
+                                    style="padding: 10px 20px; background: #D32F2F; border: none; color: white; font-weight: bold; cursor: pointer; border-radius: 5px; width: 100%; max-width: 120px;">
+                                    Remove
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="font-size: 1.2em; color: white;">No saved items yet.</p>
+    {% endif %}
+</main>
+{% endblock %}

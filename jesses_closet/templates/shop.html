@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Shop - PINKMAN Clothing{% endblock %}
+
+{% block content %}
+<main style="padding: 30px; text-align: center;">
+    <section id="shop">
+        <h2 style="margin-top: 30px; font-size: 2em; text-transform: uppercase;">Our Collection</h2>
+        {% for category, items in products.items() %}
+            <h3 style="margin-top: 40px; font-size: 1.5em; text-transform: uppercase; color: #FFD700;">{{ category }}</h3>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+                {% for product in items %}
+                <div style="background: rgba(30, 30, 30, 0.85); padding: 20px; margin: 10px; border-radius: 10px; width: 250px; display: flex; flex-direction: column; align-items: center; height: auto; min-height: 380px;">
+                    
+                    <!-- Image -->
+                    <div style="width: 200px; height: 200px; display: flex; justify-content: center; align-items: center;">
+                        <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}"
+                             style="width: 200px; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;" 
+                             loading="lazy" 
+                             onerror="this.src='/static/default.jpg';">
+                    </div>
+
+                    <!-- Name -->
+                    <h3 style="margin: 10px 0; color: white;">{{ product.name }}</h3>
+
+                    <!-- Description -->
+                    <div style="font-size: 0.9em; color: white; margin-bottom: 10px; max-height: 80px; overflow-y: auto;">
+                        <p>{{ product.description }}</p>
+                    </div>
+
+                    <!-- Price -->
+                    <p style="font-size: 1.2em; font-weight: bold; color: #FFD700;">${{ product.price }}</p>
+
+                    <!-- Buy Now Button -->
+                    <a href="{{ product.purchase_link }}" target="_blank" 
+                        style="display: block; margin-top: 10px; padding: 12px 20px; background: #FFD700; border: none; color: black; font-weight: bold; text-decoration: none; border-radius: 5px;">
+                        Buy Now
+                    </a>
+
+                    <!-- Save for Later Button -->
+                    <form action="{{ url_for('save_item') }}" method="post" style="margin-top: 10px;">
+                        <input type="hidden" name="product_name" value="{{ product.name }}">
+                        <input type="hidden" name="purchase_link" value="{{ product.purchase_link }}">
+                        <button type="submit" 
+                            style="padding: 8px 16px; background: transparent; border: 2px solid white; color: white; font-weight: bold; cursor: pointer; border-radius: 5px;">
+                            Save for Later
+                        </button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </section>
+</main>
+{% endblock %}
