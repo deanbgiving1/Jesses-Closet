@@ -8,5 +8,6 @@ To run the program, go to your command prompt and find the directory the "jesses
 
 For example
 C:\Users\yourname\Desktop\jesses_closet>python app.py
+
 If you get an error about flask, do "pip install flask" first.
 To change directories use "cd Desktop/jesses_closet"
